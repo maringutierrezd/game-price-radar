@@ -11,7 +11,7 @@ def extract_aks_game_id(steam_name: str) -> str:
     aks_web_url = f'https://www.allkeyshop.com/blog/buy-{steam_name}-cd-key-compare-prices/'
     response = requests.get(url=aks_web_url, headers=DEFAULT_HEADERS)
     soup = bs(response.content, 'html5lib')
-    # According to current logic, the needed script tag is the fourth (index 3)
+    # According to current structure of an AKS game page, the needed script tag is the fourth (index 3)
     script_tags = soup.findAll('script', type='application/ld+json')
     if len(script_tags) < 4:
         raise ValueError('Unexpected page structure: cannot find the required script tag.')
@@ -42,7 +42,7 @@ def get_cheapest_steam_price(offers: list) -> float:
     if not steam_offers:
         return None
 
-    # For the given offer, consider both 'priceCard' and 'pricePaypal' prices
+    # For the given offer, consider both 'priceCard' and 'pricePaypal' prices, as sometimes they differ
     offer = steam_offers[0]
     price_card = offer['price']['eur'].get('priceCard', float('inf'))
     price_paypal = offer['price']['eur'].get('pricePaypal', float('inf'))

@@ -7,7 +7,7 @@ def main():
     steam_id = '1174180'
     print(f'Steam ID: {steam_id}')
 
-    # Retrieve game data from Steam.
+    # Retrieve game data from Steam
     steam_data = steam.fetch_steam_data(steam_id)
     steam_name = steam_data['name']
     steam_price = steam_data['price_eur']
