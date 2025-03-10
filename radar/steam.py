@@ -8,7 +8,7 @@ def fetch_steam_data(steam_id: str) -> dict:
     Retrieves game data from the Steam API.
     Returns a dictionary containing at least the game name and the initial price in euros.
     '''
-    steam_api_url = f'https://store.steampowered.com/api/appdetails?appids={steam_id}'
+    steam_api_url = f'https://store.steampowered.com/api/appdetails?appids={steam_id}&cc=es'
     response = requests.get(url=steam_api_url, headers=DEFAULT_HEADERS)
     data = json.loads(response.content)[steam_id]['data']
     # Convert the initial price from cents to euros, if available
