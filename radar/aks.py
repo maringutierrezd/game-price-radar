@@ -3,6 +3,7 @@ import requests
 import json
 from bs4 import BeautifulSoup as bs
 from .utils import DEFAULT_HEADERS
+from .cache_utils import get_cached_aks_id, update_cache
 
 def extract_aks_game_id(steam_name: str) -> str:
     '''
@@ -17,6 +18,18 @@ def extract_aks_game_id(steam_name: str) -> str:
         raise ValueError('Unexpected page structure: cannot find the required script tag.')
     json_data = json.loads(script_tags[3].string)
     aks_id = json_data['@id']
+    return aks_id
+
+def get_aks_id(steam_name: str) -> str:
+    '''
+    Retrieves the AKS game ID using the cache if possible; if not, extracts it from the page.
+    '''
+    aks_id = get_cached_aks_id(steam_name)
+    if aks_id:
+        return aks_id
+    # If not cached, extract and update cache
+    aks_id = extract_aks_game_id(steam_name)
+    update_cache(steam_name, aks_id)
     return aks_id
 
 def fetch_aks_offers(aks_id: str) -> list:

@@ -15,7 +15,7 @@ def main():
     print(f'Base/initial price: {steam_price}€')
 
     # Get the AllKeyShop game ID
-    aks_id = aks.extract_aks_game_id(steam_name)
+    aks_id = aks.get_aks_id(steam_name)
     print(f'AKS Game ID: {aks_id}')
 
     # Retrieve offers from AllKeyShop and determine the cheapest Steam price
